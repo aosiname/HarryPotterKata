@@ -20,7 +20,7 @@ namespace HarryPotterKata.Models
         public Book()
         {
             // TODO: Complete member initialization
-            //
+            // s2
         }
 
         // from a Java OOP origin so I am more comfortable with transformer and accessor over fields and properties
