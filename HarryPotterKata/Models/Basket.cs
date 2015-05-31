@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.Owin.Security;
 
 namespace HarryPotterKata.Models
 {
@@ -60,7 +61,9 @@ namespace HarryPotterKata.Models
         }
 
 
-
-        
+        public bool Contains(Book book)
+        {
+            return books.Contains(book);
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Policy;
 using HarryPotterKata.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
@@ -220,7 +219,9 @@ namespace HarryPotterKata.Tests.Models
             Assert.AreEqual(expected, actual);
         }
 
-        // assume this will work up till 5 books due to time constraint..!
+        // assume above will work up till 5 books due to time constraint..!
+
+
         [Test]
         public void CalculateDiscountOfThreeBooksTwoOfWhichAreTheSame()
         {
@@ -230,6 +231,123 @@ namespace HarryPotterKata.Tests.Models
             basket.AddBook(book2);
 
             SetActualTotalPrice();
+
+            actual = RoundDecimalToXDP((decimal)actual, 1);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+
+
+        [Test]
+        public void CalculateDiscountOfFourBooksThreeOfWhichAreTheSame()
+        {
+            expected = 31.2m;
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
+
+            SetActualTotalPrice();
+
+            actual = RoundDecimalToXDP((decimal)actual, 1);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CalculateDiscountOfFiveBooksThreeOfWhichAreTheSame()
+        {
+            expected = 39.2m;
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
+
+            SetActualTotalPrice();
+
+            actual = RoundDecimalToXDP((decimal)actual, 1);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        /*
+         * 2 copies of the first book
+         * 2 copies of the second book
+         * 2 copies of the third book
+         * 1 copy of the fourth book
+         * 1 copy of the fifth book
+         */
+        [Test]
+        public void CalculatePriceOfAboveConditionsToCompleteTheExercise()
+        {
+            expected = 51.6m;
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
+            basket.AddBook(book2);
+            basket.AddBook(book3);
+            basket.AddBook(book3);
+            basket.AddBook(book4);
+            basket.AddBook(book5);
+
+            SetActualTotalPrice();
+
+            actual = RoundDecimalToXDP((decimal)actual, 1);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+
+        [Test]
+        public void TestTwoBooksOfType1AndOneBookOfType2ReturnsTwoBasketsWithUniqueBooksInside()
+        {
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
+            var compicatedBasket = bookDiscountCalculator.CalculateComplicatedBasketCaseDiscount(basket);
+
+            expected = 2; // two lists of baskets - one containing books 1,2 and the other containing book1
+            actual = compicatedBasket.Count;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void TestThreeBooksOfType1AndOneBookOfType2ReturnsThreeBasketsWithUniqueBooksInside()
+        {
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
+            var compicatedBasket = bookDiscountCalculator.CalculateComplicatedBasketCaseDiscount(basket);
+
+            expected = 3; // two lists of baskets - one containing books 1,2 and the other containing book1
+            actual = compicatedBasket.Count;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void TestThreeBook1sTwoBook2sThreeBook3sFourBook4sOneBook5Returns4Baskets()
+        {
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
+            basket.AddBook(book2);
+            basket.AddBook(book3);
+            basket.AddBook(book3);
+            basket.AddBook(book3);
+            basket.AddBook(book4);
+            basket.AddBook(book4);
+            basket.AddBook(book4);
+            basket.AddBook(book4);
+            basket.AddBook(book5);
+            var compicatedBasket = bookDiscountCalculator.CalculateComplicatedBasketCaseDiscount(basket);
+
+            expected = 4; // two lists of baskets - one containing books 1,2 and the other containing book1
+            actual = compicatedBasket.Count;
 
             Assert.AreEqual(expected, actual);
         }
@@ -277,19 +395,16 @@ namespace HarryPotterKata.Tests.Models
             Assert.AreEqual(expected, actual);
         }
 
-        public void CalculateDiscountOfFourBooksThreeOfWhichAreTheSame()
-        {
-            expected = 31.2m;
-            basket.AddBook(book1);
-            basket.AddBook(book1);
-            basket.AddBook(book1);
-            basket.AddBook(book2);
-        }
 
         // helpers
         public void SetActualTotalPrice()
         {
             actual = basket.GetTotalPrice(bookDiscountCalculator);
+        }
+
+        public decimal RoundDecimalToXDP(decimal subject, int decimalPlaces)
+        {
+            return Math.Round(subject, decimalPlaces, MidpointRounding.AwayFromZero);
         }
     }
 }
