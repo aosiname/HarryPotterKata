@@ -19,6 +19,15 @@ namespace HarryPotterKata.Tests.Models
         // Setup
         public BookTest()
         {
+            /***
+                1. Harry Potter and the Philosopher's Stone
+                2. Harry Potter and the Chamber of Secrets
+                3. Harry Potter and the Prisoner of Azkaban
+                4. Harry Potter and the Goblet of Fire
+                5. Harry Potter and the Order of the Phoenix
+                6. Harry Potter and the Half-Blood Prince
+                7. Harry Potter and the Deathly Hallows
+             */
             book = new Book(8.00m);
 
             book1 = new Book(8.00m);
@@ -70,12 +79,8 @@ namespace HarryPotterKata.Tests.Models
         [Test]
         public void BasketHoldsACollectionOfBooks()
         {
-            // Arrange
-            //basket = new Basket();
-
             // Act
             var bookCollection = basket.GetAllBooks();
-
 
             // Assert
             Assert.IsInstanceOfType(bookCollection, typeof(List<Book>));
@@ -84,29 +89,6 @@ namespace HarryPotterKata.Tests.Models
         [Test]
         public void CanAddBooksToBasket()
         {
-            /***
-                1. Harry Potter and the Philosopher's Stone
-                2. Harry Potter and the Chamber of Secrets
-                3. Harry Potter and the Prisoner of Azkaban
-                4. Harry Potter and the Goblet of Fire
-                5. Harry Potter and the Order of the Phoenix
-                6. Harry Potter and the Half-Blood Prince
-                7. Harry Potter and the Deathly Hallows
-             */
-
-            // Arrange
-            // shot myself in the foot here!
-            // Book book1 = new Book() {Price = 8.00m};
-            /*Book book1 = new Book(8.00m); // lets go the long way round
-            book1.setID(1);
-            book1.setTitle("Harry Potter and the Philosopher's Stone");*/
-
-            /*Book book2 = new Book(8.00m);
-            book2.setID(2);
-            book2.setTitle("Harry Potter and the Chamber of Secrets");*/
-
-            //basket = new Basket();
-
             // Act
             basket.AddBook(book1);
             basket.AddBook(book2);            
@@ -118,27 +100,15 @@ namespace HarryPotterKata.Tests.Models
         }
 
         [Test]
-        public void CalculatePriceOfBooksInBasket()
-        {
-            // Arrange
-            /*Book book1 = new Book(8.00m); // lets go the long way round
-            book1.setID(1);
-            book1.setTitle("Harry Potter and the Philosopher's Stone");*/
-
-            /*Book book2 = new Book(8.00m); // lets go the long way round
-            book2.setID(2);
-            book2.setTitle("Harry Potter and the Chamber of Secrets");*/
-
-            //basket = new Basket();
-            
+        public void TestBooksInBasketHavePrices()
+        {   
             // Act
             basket.AddBook(book1);
             basket.AddBook(book2);
             actual = book1.getPrice() + book2.getPrice();
-
-            // Assert
-
             expected = 16.00m;
+            
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
@@ -151,9 +121,8 @@ namespace HarryPotterKata.Tests.Models
 
             decimal percentageDiscount = 5/100m;
             expected = (1 - percentageDiscount)*16.00m;
-            //expected = bookDiscountCalculator.CalculateDiscount(basket)*bookDiscountCalculator.CalculateSubTotal(basket);
-            //actual = book1.getPrice() + book2.getPrice();
-            actual = basket.GetTotalPrice(bookDiscountCalculator);
+
+            SetActualTotalPrice();
             
             // Assert
             Assert.AreEqual(expected, actual);
@@ -185,7 +154,7 @@ namespace HarryPotterKata.Tests.Models
             basket.AddBook(book3);
 
             Assert.AreEqual(3, basket.GetAllBooks().Count);
-            actual = basket.GetTotalPrice(bookDiscountCalculator);
+            SetActualTotalPrice();
             Assert.AreEqual(expected, actual);
         }
 
@@ -200,7 +169,7 @@ namespace HarryPotterKata.Tests.Models
             basket.AddBook(book3);
             basket.AddBook(book4);
 
-            actual = basket.GetTotalPrice(bookDiscountCalculator);
+            SetActualTotalPrice();
 
             Assert.AreEqual(4, basket.GetAllBooks().Count);
             Assert.AreEqual(expected, actual);
@@ -218,7 +187,7 @@ namespace HarryPotterKata.Tests.Models
             basket.AddBook(book4);
             basket.AddBook(book5);
 
-            actual = basket.GetTotalPrice(bookDiscountCalculator);
+            SetActualTotalPrice();
 
             Assert.AreEqual(5, basket.GetAllBooks().Count);
             Assert.AreEqual(expected, actual);
@@ -227,15 +196,46 @@ namespace HarryPotterKata.Tests.Models
         [Test]
         public void UseCalculatorToCalculateDiscountOfTwoBooksWhichAreTheSame()
         {
-            expected = 16.00m;
+            expected = 16.00m; // feel i dont need to prove i can calculate the discount manually!
 
             basket.AddBook(book1);
             basket.AddBook(book1);
 
-            actual = basket.GetTotalPrice(bookDiscountCalculator);
+            SetActualTotalPrice();
 
             Assert.AreEqual(2, basket.GetAllBooks().Count);
             Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void UseCalculatorToCalculateDiscountOfThreeBooksWhichAreTheSame()
+        {
+            expected = 24.00m;
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+
+            SetActualTotalPrice();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        // assume this will work up till 5 books due to time constraint..!
+        //[Test]
+        public void UseCalculatorToCalculateDiscountOfThreeBooksTwoOfWhichAreTheSame()
+        {
+            expected = 23.2m;
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
+
+            //actual = basket.GetTotalPrice()
+        }
+
+        // helpers
+        public void SetActualTotalPrice()
+        {
+            actual = basket.GetTotalPrice(bookDiscountCalculator);
         }
     }
 }
