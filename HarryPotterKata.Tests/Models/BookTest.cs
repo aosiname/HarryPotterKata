@@ -134,9 +134,10 @@ namespace HarryPotterKata.Tests.Models
             // Act
             basket.AddBook(book1);
             basket.AddBook(book2);
+            actual = book1.getPrice() + book2.getPrice();
 
             // Assert
-            actual = book1.getPrice() + book2.getPrice();
+
             expected = 16.00m;
             Assert.AreEqual(expected, actual);
         }
@@ -178,7 +179,7 @@ namespace HarryPotterKata.Tests.Models
         {
             decimal percentageDiscount = 10 / 100m;
             expected = (1 - percentageDiscount) * 24.00m;
-            //actual = book1.getPrice() + book2.getPrice();
+
             basket.AddBook(book1);
             basket.AddBook(book2);
             basket.AddBook(book3);
@@ -193,7 +194,7 @@ namespace HarryPotterKata.Tests.Models
         {
             decimal percentageDiscount = 20 / 100m;
             expected = (1 - percentageDiscount) * 32.00m;
-            //actual = book1.getPrice() + book2.getPrice();
+
             basket.AddBook(book1);
             basket.AddBook(book2);
             basket.AddBook(book3);
@@ -210,7 +211,7 @@ namespace HarryPotterKata.Tests.Models
         {
             decimal percentageDiscount = 25 / 100m;
             expected = (1 - percentageDiscount) * 40.00m;
-            //actual = book1.getPrice() + book2.getPrice();
+            
             basket.AddBook(book1);
             basket.AddBook(book2);
             basket.AddBook(book3);
@@ -223,9 +224,18 @@ namespace HarryPotterKata.Tests.Models
             Assert.AreEqual(expected, actual);
         }
 
+        [Test]
+        public void UseCalculatorToCalculateDiscountOfTwoBooksWhichAreTheSame()
+        {
+            expected = 16.00m;
 
-       
+            basket.AddBook(book1);
+            basket.AddBook(book1);
 
+            actual = basket.GetTotalPrice(bookDiscountCalculator);
 
+            Assert.AreEqual(2, basket.GetAllBooks().Count);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

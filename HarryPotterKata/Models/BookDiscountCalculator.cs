@@ -8,7 +8,6 @@ namespace HarryPotterKata.Models
 {
     public class BookDiscountCalculator : ICalculator
     {
- 
         public int CalculateBookDiscount(List<Book> books)
         {
             // get distinct number of books
@@ -54,23 +53,15 @@ namespace HarryPotterKata.Models
         public decimal CalculateSubTotal(Basket basket)
         {
             return basket.GetAllBooks().Sum(book => book.getPrice());
-
-            // +1 ReSharper!!!
-            /* decimal subTotal = 0;
-            foreach (Book book in basket.GetAllBooks())
-            {
-                subTotal += book.getPrice();
-            }
-            return subTotal;*/
         }
 
         public decimal CalculateDiscount(Basket basket)
         {
             decimal discount = 1;
-            switch (basket.GetAllBooks().Count)
+            switch (basket.GetAllBooks().GroupBy(b => b.getID()).Count())
             {
                 case 1 :
-                    discount = 1;
+                    discount = 0;
                     break;
                 case 2:
                     discount = 5 / 100m;
