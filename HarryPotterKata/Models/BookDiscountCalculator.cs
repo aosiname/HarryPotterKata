@@ -58,29 +58,52 @@ namespace HarryPotterKata.Models
         public decimal CalculateDiscount(Basket basket)
         {
             decimal discount = 1;
-            switch (basket.GetAllBooks().GroupBy(b => b.getID()).Count())
-            {
-                case 1 :
-                    discount = 0;
-                    break;
-                case 2:
-                    discount = 5 / 100m;
-                    break;
-                case 3:
-                    discount = 10 / 100m;
-                    break;
-                case 4:
-                    discount = 20 / 100m;
-                    break;
-                case 5:
-                    discount = 25 / 100m;
-                    break;
-                default:
-                    discount = 1;
-                    break;
-            }
 
-            return 1 - discount;
+            // feel basket should return this.
+            // int numberOfBooks = basket.GetAllBooks().Count;
+            int numberOfBooks = basket.NumberOfItems;
+            int numberOfDistinctBooks = basket.NumberOfDistinctItems;
+
+
+            //https://github.com/dchetwynd/Harry-Potter-Kata/blob/master/potterkata.py (inspiration)
+
+
+            // only continue down here if
+            bool condition1 = numberOfDistinctBooks == numberOfBooks;
+            bool condition2 = numberOfDistinctBooks == 1;
+            bool condition3 = numberOfBooks % numberOfDistinctBooks == 0;
+
+            if (condition1 || condition2 || condition3)
+            {
+                switch (numberOfDistinctBooks)
+                {
+                    case 1:
+                        discount = 0;
+                        break;
+                    case 2:
+                        discount = 5/100m;
+                        break;
+                    case 3:
+                        discount = 10/100m;
+                        break;
+                    case 4:
+                        discount = 20/100m;
+                        break;
+                    case 5:
+                        discount = 25/100m;
+                        break;
+                    default:
+                        discount = 1;
+                        break;
+                }
+
+                return 1 - discount;
+
+            }
+            else
+            {
+                throw new Exception("complicated basket case");
+            }
         }
     }
 }

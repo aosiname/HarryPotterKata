@@ -221,15 +221,69 @@ namespace HarryPotterKata.Tests.Models
         }
 
         // assume this will work up till 5 books due to time constraint..!
-        //[Test]
-        public void UseCalculatorToCalculateDiscountOfThreeBooksTwoOfWhichAreTheSame()
+        [Test]
+        public void CalculateDiscountOfThreeBooksTwoOfWhichAreTheSame()
         {
             expected = 23.2m;
             basket.AddBook(book1);
             basket.AddBook(book1);
             basket.AddBook(book2);
 
-            //actual = basket.GetTotalPrice()
+            SetActualTotalPrice();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CalculateDiscountOfFourBooksOnePairFromTwoTitles()
+        {
+            expected = 30.40m;
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
+            basket.AddBook(book2);
+
+            SetActualTotalPrice();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CountBooksInBasket()
+        {
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+
+            expected = 2;
+
+            // exemplifying use of properties over traditional transformers and accessors
+            actual = basket.NumberOfItems;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CountDistinctBooksInBasket()
+        {
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
+
+            expected = 2;
+
+            // exemplifying use of properties over traditional transformers and accessors
+            actual = basket.NumberOfDistinctItems;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        public void CalculateDiscountOfFourBooksThreeOfWhichAreTheSame()
+        {
+            expected = 31.2m;
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book1);
+            basket.AddBook(book2);
         }
 
         // helpers
@@ -239,3 +293,4 @@ namespace HarryPotterKata.Tests.Models
         }
     }
 }
+//

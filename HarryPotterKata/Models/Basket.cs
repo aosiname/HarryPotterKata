@@ -8,7 +8,26 @@ namespace HarryPotterKata.Models
     public class Basket : IBookCollection
     {
         private List<Book> books { get; set; }
+        
+        // used properties in case I need to set this...YAGNI!??!?
+        private int numberOfDistinctItems { get; set; }
+        public int NumberOfDistinctItems
+        {
+            get
+            {
+                return books != null ? books.GroupBy(b => b.getID()).Count() : 0;
+            }
+        }
 
+        private int numberOfItems;
+        public int NumberOfItems
+        {
+            get
+            {
+                return books != null ? books.Count() : 0;
+            }
+        }
+        
         public Basket()
         {
             this.books = new List<Book>();
@@ -39,5 +58,9 @@ namespace HarryPotterKata.Models
 
             return calculator.CalculateTotalPrice(this);
         }
+
+
+
+        
     }
 }
