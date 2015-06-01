@@ -8,7 +8,7 @@ namespace HarryPotterKata.Models
 {
     public class Basket : IBookCollection
     {
-        private List<Book> books { get; set; }
+        private List<Book> Books { get; set; }
         
         // used properties in case I need to set this...YAGNI!??!?
         private int numberOfDistinctItems { get; set; }
@@ -16,32 +16,32 @@ namespace HarryPotterKata.Models
         {
             get
             {
-                return books != null ? books.GroupBy(b => b.getID()).Count() : 0;
+                return Books != null ? Books.GroupBy(b => b.GetId()).Count() : 0;
             }
         }
 
-        private int numberOfItems;
+        private int _numberOfItems;
         public int NumberOfItems
         {
             get
             {
-                return books != null ? books.Count() : 0;
+                return Books != null ? Books.Count() : 0;
             }
         }
         
         public Basket()
         {
-            this.books = new List<Book>();
+            this.Books = new List<Book>();
         }
 
         public List<Book> GetAllBooks()
         {
-            return this.books;
+            return this.Books;
         }
 
         public void AddBook(Book book)
         {
-            books.Add(book);
+            Books.Add(book);
         }
 
         public void RemoveBook(Book book)
@@ -51,19 +51,22 @@ namespace HarryPotterKata.Models
 
         public void EmptyBasket()
         {
-            this.books.Clear();
+            this.Books.Clear();
         }
 
+        // feel the basket doesnt have a calculator but rather is given a calculator to calculate the items inside
+        // it also decoupled my basket from my calculator using SRP
+        // in hindsight, id probably run each item in the basket through a TillObject which has a Calculator...
+        // so maybe there would be a TillObject with a scan method that scans books in this case
         public decimal GetTotalPrice(ICalculator calculator)
         {
 
             return calculator.CalculateTotalPrice(this);
         }
 
-
         public bool Contains(Book book)
         {
-            return books.Contains(book);
+            return Books.Contains(book);
         }
     }
 }

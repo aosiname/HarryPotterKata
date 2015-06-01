@@ -7,7 +7,7 @@ namespace HarryPotterKata.Models
 {
     public class Book
     {
-        private int ID { get; set; }
+        private int Id { get; set; }
         private string Title { get; set; }
         private decimal Price { get; set; }
 
@@ -24,28 +24,28 @@ namespace HarryPotterKata.Models
         }
 
         // from a Java OOP origin so I am more comfortable with transformer and accessor over fields and properties
-        public string getTitle()
+        public string GetTitle()
         {
             return this.Title;
         }
-        public decimal getPrice()
+        public decimal GetPrice()
         {
             return this.Price;
         }
-        public int getID()
+        public int GetId()
         {
-            return this.ID;
+            return this.Id;
         }
 
 
-        public void setTitle(string title)
+        public void SetTitle(string title)
         {
             this.Title = title;
         }
 
-        public void setID(int id)
+        public void SetId(int id)
         {
-            this.ID = id;
+            this.Id = id;
         }
     }
 }

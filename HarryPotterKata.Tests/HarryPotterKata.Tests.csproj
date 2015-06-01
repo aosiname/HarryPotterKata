@@ -89,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\BookTest.cs" />
+    <Compile Include="Models\BasketTests.cs" />
+    <Compile Include="Models\BookDiscountCalculatorTests.cs" />
+    <Compile Include="Models\HarryPotterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
